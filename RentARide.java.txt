@@ -1,0 +1,92 @@
+package rentARide;
+import java.util.*;
+public class RentARide {
+		public static void main(String[] args) {
+			String rideDistance;
+			String carName;
+			String[] Driver = {"A","B","C","D","E"};
+			String[] CarModel = new String[10];
+			double[] Rating = new double[10];
+			Scanner sc = new Scanner(System.in);
+			String[] Distance = new String[10];
+			
+			System.out.print("Customer Ride Distance: ");
+			rideDistance = sc.next();
+			System.out.print("Car Requested: ");
+			carName = sc.next();
+			System.out.println("List of Drivers with Details:");
+			System.out.println("while entering names with spaces combine with '-' like '5-Seater'.");
+			
+			for(int i=0;i<Driver.length;i++) {
+				System.out.print("Enter Driver "+Driver[i]+" CarModel:");
+				CarModel[i]=sc.next();
+				System.out.print("Enter Driver "+Driver[i]+" Rating:");
+				Rating[i]=sc.nextDouble();
+				System.out.print("Enter Driver "+Driver[i]+" Distance:");
+				Distance[i]=sc.next();
+			}
+			Formatter f = new Formatter();
+			System.out.println("  Driver  "+"   Car Model   "+"  Rating  "+"  DistanceFromCustomer  ");
+			for(int i=0;i<Driver.length;i++) {
+				f.format("%5s",Driver[i]);
+				System.out.print(f);
+				f=new Formatter();
+				f.format("%17s",CarModel[i]);
+				System.out.print(f);
+				f=new Formatter();
+				f.format("%10.2f",Rating[i]);
+				System.out.print(f);
+				f=new Formatter();
+				f.format("%17s",Distance[i]);
+				System.out.println(f);
+				f=new Formatter();
+			}
+			
+			//following is the main code 
+			int[] temp = new int[10];
+			int count=0;
+			double less=999;
+			for(int i=0;i<Driver.length;i++) {
+				if((CarModel[i].equals(carName)) && Rating[i]>4) {
+					temp[count]=i;
+					count+=1;
+				}
+			}
+//			System.out.println(temp);
+			
+			double temp1[] = new double[Distance.length];
+			// convert distance from mtrs to kms
+			for(int i=0;i<Driver.length;i++) {
+				if(Distance[i].contains("km")) {
+					Distance[i]=Distance[i].replace("km","");
+					temp1[i]=Integer.parseInt(Distance[i]);
+				}
+				else if(Distance[i].contains("m")) {
+					Distance[i]=Distance[i].replace("m", "");
+					temp1[i]=Integer.parseInt(Distance[i]);
+					temp1[i]=temp1[i]*0.001;
+				}
+			}
+			
+			//finding nearest driver
+			int resIndex=-1;
+			for(int j=0;j<count;j++) {
+				int tempInd=temp[j];
+				if(temp1[tempInd]<less) {
+					less=temp1[tempInd];
+					resIndex=tempInd;
+				}
+			}
+			String name = Driver[resIndex];
+//			System.out.println(less);
+//			for(int i=0;i<temp.length;i++) {
+//				System.out.println(temp[i]);
+//			}
+			
+			double cost = (Double.parseDouble(rideDistance.replace("km", "")))*8;
+			System.out.println("Driver "+name+" will get you to the destination.");
+			System.out.println("Your charge will be Rs "+cost);
+//			
+		}
+	}
+
